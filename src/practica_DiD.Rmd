@@ -1,0 +1,74 @@
+---
+title: "Práctica: Diferencias en Diferencias"
+author: 
+  - Carlos Bautista
+  - Mario Heredia
+  - Mariana Lugo 
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+
+```{r}
+library(tidyverse)
+
+dta <- read_csv('data/datadid.csv')
+
+```
+
+
+```{r}
+mod <- lm(Empl ~ Treatment + Group + Treatment*Group, data = dta)
+
+summary(mod)
+```
+
+- ¿El efecto en el grupo de control es significativo antes de implementar la política
+
+```{r}
+#b0:
+mod$coefficients[1]
+```
+
+El valor promedio de la variable de respuesta [num de empleados] en el grupo de control antes del tratamiento [aumento de salario] es significativo
+
+
+- ¿Los grupos de tratamiento y de control muestran alguna diferencia significativan antes de implementar
+la política?
+
+```{r}
+#b1:
+mod$coefficients[2]
+```
+
+La diferencia en el numero de empleados entre PA (control) y NJ (treatment) antes del aumento en el salario mínimo sí es significativa al 99% de confianza
+
+- ¿En el grupo de tratamiento existe algún cambio significativo entre el primer y el segundo período de
+tiempo?
+
+
+```{r}
+# b2
+mod$coefficients[3]
+```
+
+- Después del tratamiento ¿Hhy algún efecto significativo en el grupo de tratamiento sobre el de control?
+Es decir, ¿tiene impacto la política implementada?
+
+```{r}
+# b3
+mod$coefficients[4]
+```
+
+
+## Comparar agregando una variable adicional
+
+```{r}
+mod2 <- lm(Empl ~ Treatment + Group + Treatment*Group + SouthJ + CentralJ + NorthJ, data = dta)
+
+summary(mod2)
+```
