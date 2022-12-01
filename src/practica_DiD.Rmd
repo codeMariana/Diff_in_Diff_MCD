@@ -35,7 +35,7 @@ kable(head(dta), booktabs=TRUE) %>%
 
 Se especifica el primer modelo 1 (m1) como:
 
-$$ Empleo_i= \beta_0+ \beta_1Tiempo + \beta_2Tratamiento + \beta_4TiempoTratamiento + u$$
+$$ Empleo_i= \beta_0+ \beta_1Tiempo + \beta_2Tratamiento + \beta_4TiempoTratamiento + u$$. En nuestros datos la variable que se refiere al tiempo es la denominada como *Treatmeant* y la variable que indica el grupo de tratamiento es la denominada como *Group*.
 
 \newpage
 ```{r}
@@ -47,17 +47,17 @@ stargazer(m1, type="text")
 El coeficiente de la regresión $\beta_0= 10.20513$ es el intercepto resultó significativo en el modelo 1. Por lo tanto, el valor promedio del número de empleados (variable de respuesta) es significativo en el grupo de control antes de aplicar el tratamiento (aumento del salario). 
 
 ```{r}
-#b0:
-m1$coefficients[1]
+kable(m1$coefficients[1])
 ```
-## 2. ¿Los grupos de tratamiento y de control muestran alguna diferencia significativan antes de implementar la política?
+## 2. ¿Los grupos de tratamiento y de control muestran alguna diferencia significativa antes de implementar la política?
+
+La diferencia entre el grupo de tratamiento y control antes de implementar la política se refiere al coeficiente $\beta_2$. En el modelo 1, el coeficiente $\beta_2$ resultó significativo por lo que la diferencia entre el número de empleados en Philadelphia (PA), como grupo de control, y New Jersey (NJ), como grupo de tratamiento, es sigfinicativa antes del aumento en el salario mínimo.
 
 ```{r}
-#b1:
-m1$coefficients[2]
+kable(m1$coefficients[3])
 ```
 
-La diferencia en el numero de empleados entre PA (control) y NJ (treatment) antes del aumento en el salario mínimo sí es significativa al 99% de confianza
+
 
 - ¿En el grupo de tratamiento existe algún cambio significativo entre el primer y el segundo período de
 tiempo?
