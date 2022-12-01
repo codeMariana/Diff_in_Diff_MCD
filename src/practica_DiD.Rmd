@@ -24,7 +24,8 @@ library(kableExtra)
 library(dplyr)
 library(stargazer)
 
-dta<- read.csv("/home/mariana/Documents/MCD/Diff_in_Diff_MCD/data/datadid.csv")
+path = "/Users/cbautistap/Dropbox/MCD/Cursos/otono-2022/modelacion/data/datadid.csv"
+dta<- read.csv(path)
 kable(head(dta), booktabs=TRUE) %>% 
   kable_styling(latex_options = c("scale_down","hold_position"))
 ```
@@ -44,7 +45,7 @@ m1 <- lm(Empl ~ Treatment + Group + Treatment*Group, data = dta)
 stargazer(m1, type="text")
 ```
 
-El coeficiente de la regresión $\beta_0= 10.20513$ es el intercepto resultó significativo en el modelo 1. Por lo tanto, el valor promedio del número de empleados (variable de respuesta) es significativo en el grupo de control antes de aplicar el tratamiento (aumento del salario). 
+El coeficiente de la regresión $\beta_0= 10.20513$, que corresponde al intercepto, resultó significativo en el modelo 1. Es decir, podemos afirmar que el número de empleados (variable de respuesta) promedio en Pensilvania (grupo de control) antes del aumento del salario mínimo en Nueva Jersey (tratamiento) es significativo. 
 
 ```{r}
 #b0:
