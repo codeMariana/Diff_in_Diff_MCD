@@ -23,6 +23,7 @@ library(readr)
 library(kableExtra)
 library(dplyr)
 library(stargazer)
+library(car)
 
 path = "/Users/cbautistap/Dropbox/MCD/Cursos/otono-2022/modelacion/data/datadid.csv"
 dta<- read.csv(path)
@@ -40,7 +41,8 @@ $$ Empleo_i= \beta_0+ \beta_1Tiempo + \beta_2Tratamiento + \beta_4TiempoTratamie
 
 \newpage
 ```{r}
-m1 <- lm(Empl ~ Treatment + Group + Treatment*Group, data = dta)
+dta<-dta %>% mutate(DT=Treatment*Group)
+m1 <- lm(Empl ~ Treatment + Group + DT , data = dta)
 
 stargazer(m1, type="text")
 ```
@@ -58,19 +60,21 @@ La diferencia entre el grupo de tratamiento y control antes de implementar la po
 kable(m1$coefficients[3])
 ```
 
+## 3.¿En el grupo de tratamiento existe algún cambio significativo entre el primer y el segundo período de tiempo?
 
-
-- ¿En el grupo de tratamiento existe algún cambio significativo entre el primer y el segundo período de
-tiempo?
-
+El cambio en el grupo de tratamiento del primer y segundo período está representado por $\beta_1 + \beta_3=0.7215565$. 
 
 ```{r}
-# b2
-m1$coefficients[3]
-```
+b1_b3<-m1$coefficients[2]+m1$coefficients[4]
+kable(b1_b3)
 
-- Después del tratamiento ¿Hhy algún efecto significativo en el grupo de tratamiento sobre el de control?
-Es decir, ¿tiene impacto la política implementada?
+linearHypothesis(m1, c('Treatment + DT = 0'))
+
+```
+De acuerdo con el *p-value* del estadístico *F* no podemos rechazar la hipótesis nula. Es decir, no sabemos si el cambio antes y después del grupo de tratamiento es significativo. 
+
+
+##. 4. Después del tratamiento ¿Hhy algún efecto significativo en el grupo de tratamiento sobre el de control? Es decir, ¿tiene impacto la política implementada?
 
 ```{r}
 # b3
