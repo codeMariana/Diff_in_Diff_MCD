@@ -14,8 +14,24 @@ header-includes:
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-De acuerdo con el estudio de Card y Krueger (1994) analizaremos la relación entre un aumento del salario mínimo
-y el empleo. Se cargan las librerías y datos utilizados en la práctica, además se muestra un ejemplo de los datos:
+De acuerdo con el estudio de Card y Krueger (1994) analizaremos la relación entre un aumento del salario mínimo y el empleo.
+
+Las teoría económica sugiere que los aumentos del salario mínimo conducen a una reducción del empleo por
+al menos dos razones:
+•Las empresas tienen menos probabilidades de contratar personal y prefieren invertir en otros recursos
+que ahora son más baratos debido al aumento salarial.
+•Los salarios más altos inducen a las empresas a subir sus precios para compensar sus mayores costos; a
+medida que aumentan los precios, los compradores disminuyen, lo que conducirá a una menor demanda
+y empleo.
+Uno de los primeros estudios que analizó este problema de política fue el de Card y Krueger, quienes aplicaron
+el método de diferencias en diferencias en dos grupos de restaurantes de comida rápida: restaurantes de
+comida rápida en Nueva Jersey donde el salario mínimo aumentó de $4.25 a $5.05 por hora (grupo de
+tratamiento) yrestaurantes de comida rápida en Pensilvania donde el salario mínimo no aumentó (grupo de
+control).
+Con ayuda del conjunto de datos anexo se pide analizar si los aumentos del salario mínimo afectan al al
+empleo.
+
+Se cargan las librerías y datos utilizados en la práctica, además se muestra un ejemplo de los datos:
 
 ```{r, out.extra='FloatBarrier'}
 library(tidyverse)
@@ -71,12 +87,12 @@ kable(b1_b3)
 linearHypothesis(m1, c('Treatment + DT = 0'))
 
 ```
-De acuerdo con el *p-value* del estadístico *F* no podemos rechazar la hipótesis nula. Es decir, no sabemos si el cambio antes y después del grupo de tratamiento es significativo. 
+De acuerdo con el *p-value* del estadístico *F* no podemos rechazar la hipótesis nula. Es decir, no podemos afirmar que la diferencia en el número de empleados NJ antes y después del aumento del salrio mínimo es significativo. 
 
 
 ##. 4. Después del tratamiento ¿Hay algún efecto significativo en el grupo de tratamiento sobre el de control? Es decir, ¿tiene impacto la política implementada?
 
-El impacto del tratamiento en la variable de respuesta es el estimador $\beta_3$ de diferencias en diferecias. En el modelo 1, $\beta_3$ resultó significativo por lo que el aumento en el salario tuvo impacto en el empleo.
+El impacto del tratamiento en la variable de respuesta es el estimador $\beta_3$ de diferencias en diferecias. En el modelo 1, $\beta_3$ resultó significativo por lo que el incremento en el salario tuvo un impacto positivo en el empleo de 3.3 empleados en promedio.
 
 ```{r}
 kable(m1$coefficients[4])
