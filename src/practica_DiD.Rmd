@@ -45,6 +45,8 @@ path = "/Users/cbautistap/Dropbox/MCD/Cursos/otono-2022/modelacion/data/datadid.
 dta<- read.csv(path)
 kable(head(dta), booktabs=TRUE) %>% 
   kable_styling(latex_options = c("scale_down","hold_position"))
+
+attach(dta)
 ```
 
 
@@ -58,7 +60,7 @@ $$ Empleo_i= \beta_0+ \beta_1Tiempo + \beta_2Tratamiento + \beta_4TiempoTratamie
 \newpage
 ```{r}
 dta<-dta %>% mutate(DT=Treatment*Group)
-m1 <- lm(Empl ~ Treatment + Group + DT , data = dta)
+m1 <- lm(Empl ~ Treatment + Group + (Treatment*Group) , data = dta)
 
 stargazer(m1, type="text")
 ```
@@ -84,7 +86,7 @@ El cambio en el grupo de tratamiento del primer y segundo período está represe
 b1_b3<-m1$coefficients[2]+m1$coefficients[4]
 kable(b1_b3)
 
-linearHypothesis(m1, c('Treatment + DT = 0'))
+linearHypothesis(m1, c('Treatment + Treatment:Group = 0'))
 
 ```
 De acuerdo con el *p-value* del estadístico *F* no podemos rechazar la hipótesis nula. Es decir, no podemos afirmar que la diferencia en el número de empleados NJ antes y después del aumento del salrio mínimo es significativo. 
@@ -99,10 +101,17 @@ kable(m1$coefficients[4])
 ```
 
 
-## Comparar agregando una variable adicional
+## Comparar agregando una variable adicional.
+
+Con el objetivo de obtener estimaciones más precisas, hacemos una mejor especificación del modelo incorporando controles al modelo, siguiendo lo establecido por Card y Krueger (1994).
+
+El modelo es de la siguiente manera:
 
 ```{r}
-m2 <- lm(Empl ~ Treatment + Group + DT + SouthJ + CentralJ + NorthJ, data = dta)
+m2 <- lm(Empl ~ Treatment + Group + (Treatment*Group) +
+           C.Owned + Hours.Opening + Soda + Fries +
+           as.factor(Chain) + SouthJ + CentralJ + NorthJ +
+           PA1 + PA2 + Shore, data = dta)
 
-summary(m2)
+stargazer(m2, type="text")
 ```
