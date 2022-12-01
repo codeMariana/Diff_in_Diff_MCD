@@ -44,7 +44,7 @@ m1 <- lm(Empl ~ Treatment + Group + Treatment*Group, data = dta)
 stargazer(m1, type="text")
 ```
 
-El coeficiente de la regresión $\beta_0= 10.20513$ es el intercepto y resulta significativo en el modelo 1. Por lo tanto, el valor promedio del número de empleados (variable de respuesta) es significativo en el grupo de control antes de aplicar el tratamiento (aumento del salario). 
+El coeficiente de la regresión $\beta_0= 10.20513$ es el intercepto resultó significativo en el modelo 1. Por lo tanto, el valor promedio del número de empleados (variable de respuesta) es significativo en el grupo de control antes de aplicar el tratamiento (aumento del salario). 
 
 ```{r}
 #b0:
