@@ -103,9 +103,9 @@ kable(m1$coefficients[4])
 
 ## Comparar agregando una variable adicional.
 
-Con el objetivo de obtener estimaciones más precisas, hacemos una mejor especificación del modelo incorporando controles al modelo, siguiendo lo establecido por Card y Krueger (1994).
+Con el objetivo de obtener estimaciones más precisas, hacemos una mejor especificación del modelo incorporando variables de control al modelo, siguiendo lo establecido por Card y Krueger (1994). En ese sentido, se pretende controlar por diferencias entre restaurantes: por ejemplo, las variables de los precios de sodas y papas a la francesa ya que restaurantes con precios más elevados podrían contratar más empleados; o si algunos restaurantes abren por más tiempo que otros, esto también tendría un efecto en el número de empleados que contratan.
 
-El modelo es de la siguiente manera:
+Por tanto, el modelo es de la siguiente manera:
 
 ```{r}
 m2 <- lm(Empl ~ Treatment + Group + (Treatment*Group) +
