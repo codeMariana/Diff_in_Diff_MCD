@@ -73,18 +73,19 @@ linearHypothesis(m1, c('Treatment + DT = 0'))
 De acuerdo con el *p-value* del estadístico *F* no podemos rechazar la hipótesis nula. Es decir, no sabemos si el cambio antes y después del grupo de tratamiento es significativo. 
 
 
-##. 4. Después del tratamiento ¿Hhy algún efecto significativo en el grupo de tratamiento sobre el de control? Es decir, ¿tiene impacto la política implementada?
+##. 4. Después del tratamiento ¿Hay algún efecto significativo en el grupo de tratamiento sobre el de control? Es decir, ¿tiene impacto la política implementada?
+
+El impacto del tratamiento en la variable de respuesta es el estimador $\beta_3$ de diferencias en diferecias. En el modelo 1, $\beta_3$ resultó significativo por lo que el aumento en el salario tuvo impacto en el empleo.
 
 ```{r}
-# b3
-m1$coefficients[4]
+kable(m1$coefficients[4])
 ```
 
 
 ## Comparar agregando una variable adicional
 
 ```{r}
-m2 <- lm(Empl ~ Treatment + Group + Treatment*Group + SouthJ + CentralJ + NorthJ, data = dta)
+m2 <- lm(Empl ~ Treatment + Group + DT + SouthJ + CentralJ + NorthJ, data = dta)
 
 summary(m2)
 ```
