@@ -6,43 +6,55 @@ author:
   - Mariana Lugo 
 date: "`r Sys.Date()`"
 output: pdf_document
+header-includes: 
+    - \usepackage{placeins}
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
+De acuerdo con el estudio de Card y Krueger (1994) analizaremos la relación entre un aumento del salario mínimo
+y el empleo. Se cargan las librerías y datos utilizados en la práctica, además se muestra un ejemplo de los datos:
 
-```{r}
+```{r, out.extra='FloatBarrier'}
 library(tidyverse)
+library(readr)
+library(kableExtra)
+library(dplyr)
+library(stargazer)
 
-dta <- read_csv('data/datadid.csv')
-
+dta<- read.csv("/home/mariana/Documents/MCD/Diff_in_Diff_MCD/data/datadid.csv")
+kable(head(dta), booktabs=TRUE) %>% 
+  kable_styling(latex_options = c("scale_down","hold_position"))
 ```
 
 
+
+## 1. ¿El efecto en el grupo de control es significativo antes de implementar la política?
+
+Se especifica el primer modelo 1 (m1) como:
+
+$$ Empleo_i= \beta_0+ \beta_1Tiempo + \beta_2Tratamiento + \beta_4TiempoTratamiento + u$$
+
+\newpage
 ```{r}
-mod <- lm(Empl ~ Treatment + Group + Treatment*Group, data = dta)
+m1 <- lm(Empl ~ Treatment + Group + Treatment*Group, data = dta)
 
-summary(mod)
+stargazer(m1, type="text")
 ```
 
-- ¿El efecto en el grupo de control es significativo antes de implementar la política
+El coeficiente de la regresión $\beta_0= 10.20513$ es el intercepto y resulta significativo en el modelo 1. Por lo tanto, el valor promedio del número de empleados (variable de respuesta) es significativo en el grupo de control antes de aplicar el tratamiento (aumento del salario). 
 
 ```{r}
 #b0:
-mod$coefficients[1]
+m1$coefficients[1]
 ```
-
-El valor promedio de la variable de respuesta [num de empleados] en el grupo de control antes del tratamiento [aumento de salario] es significativo
-
-
-- ¿Los grupos de tratamiento y de control muestran alguna diferencia significativan antes de implementar
-la política?
+## 2. ¿Los grupos de tratamiento y de control muestran alguna diferencia significativan antes de implementar la política?
 
 ```{r}
 #b1:
-mod$coefficients[2]
+m1$coefficients[2]
 ```
 
 La diferencia en el numero de empleados entre PA (control) y NJ (treatment) antes del aumento en el salario mínimo sí es significativa al 99% de confianza
@@ -53,7 +65,7 @@ tiempo?
 
 ```{r}
 # b2
-mod$coefficients[3]
+m1$coefficients[3]
 ```
 
 - Después del tratamiento ¿Hhy algún efecto significativo en el grupo de tratamiento sobre el de control?
@@ -61,14 +73,14 @@ Es decir, ¿tiene impacto la política implementada?
 
 ```{r}
 # b3
-mod$coefficients[4]
+m1$coefficients[4]
 ```
 
 
 ## Comparar agregando una variable adicional
 
 ```{r}
-mod2 <- lm(Empl ~ Treatment + Group + Treatment*Group + SouthJ + CentralJ + NorthJ, data = dta)
+m2 <- lm(Empl ~ Treatment + Group + Treatment*Group + SouthJ + CentralJ + NorthJ, data = dta)
 
-summary(mod2)
+summary(m2)
 ```
