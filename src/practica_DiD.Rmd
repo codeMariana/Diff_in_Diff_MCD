@@ -18,35 +18,36 @@ De acuerdo con el estudio de Card y Krueger (1994) analizaremos la relación ent
 
 Las teoría económica sugiere que los aumentos del salario mínimo conducen a una reducción del empleo por
 al menos dos razones:
-•Las empresas tienen menos probabilidades de contratar personal y prefieren invertir en otros recursos
+
+- Las empresas tienen menos probabilidades de contratar personal y prefieren invertir en otros recursos
 que ahora son más baratos debido al aumento salarial.
-•Los salarios más altos inducen a las empresas a subir sus precios para compensar sus mayores costos; a
+
+- Los salarios más altos inducen a las empresas a subir sus precios para compensar sus mayores costos; a
 medida que aumentan los precios, los compradores disminuyen, lo que conducirá a una menor demanda
 y empleo.
+
 Uno de los primeros estudios que analizó este problema de política fue el de Card y Krueger, quienes aplicaron
 el método de diferencias en diferencias en dos grupos de restaurantes de comida rápida: restaurantes de
 comida rápida en Nueva Jersey donde el salario mínimo aumentó de $4.25 a $5.05 por hora (grupo de
 tratamiento) yrestaurantes de comida rápida en Pensilvania donde el salario mínimo no aumentó (grupo de
 control).
+
 Con ayuda del conjunto de datos anexo se pide analizar si los aumentos del salario mínimo afectan al al
 empleo.
 
 Se cargan las librerías y datos utilizados en la práctica, además se muestra un ejemplo de los datos:
 
-```{r, out.extra='FloatBarrier'}
+```{r}
 library(tidyverse)
 library(readr)
 library(kableExtra)
 library(dplyr)
 library(stargazer)
 library(car)
-
-path = "/Users/cbautistap/Dropbox/MCD/Cursos/otono-2022/modelacion/data/datadid.csv"
+path = "/home/mariana/Documents/MCD/Diff_in_Diff_MCD/data/datadid.csv"
 dta<- read.csv(path)
 kable(head(dta), booktabs=TRUE) %>% 
   kable_styling(latex_options = c("scale_down","hold_position"))
-
-attach(dta)
 ```
 
 
@@ -57,9 +58,7 @@ Se especifica el primer modelo 1 (m1) como:
 
 $$ Empleo_i= \beta_0+ \beta_1Tiempo + \beta_2Tratamiento + \beta_4TiempoTratamiento + u$$. En nuestros datos la variable que se refiere al tiempo es la denominada como *Treatmeant* y la variable que indica el grupo de tratamiento es la denominada como *Group*.
 
-\newpage
 ```{r}
-dta<-dta %>% mutate(DT=Treatment*Group)
 m1 <- lm(Empl ~ Treatment + Group + (Treatment*Group) , data = dta)
 
 stargazer(m1, type="text")
@@ -72,7 +71,7 @@ kable(m1$coefficients[1])
 ```
 ## 2. ¿Los grupos de tratamiento y de control muestran alguna diferencia significativa antes de implementar la política?
 
-La diferencia entre el grupo de tratamiento y control antes de implementar la política se refiere al coeficiente $\beta_2$. En el modelo 1, el coeficiente $\beta_2$ resultó significativo por lo que la diferencia entre el número de empleados en Philadelphia (PA), como grupo de control, y New Jersey (NJ), como grupo de tratamiento, es sigfinicativa antes del aumento en el salario mínimo.
+La diferencia entre el grupo de tratamiento y control antes de implementar la política se refiere al coeficiente $\beta_2$. En el modelo 1, el coeficiente $\beta_2$ resultó significativo por lo que la diferencia del número de empleados en Pensilvania (PA), como grupo de control, y Nueva Jersey (NJ), como grupo de tratamiento, es sigfinicativa antes del aumento en el salario mínimo.
 
 ```{r}
 kable(m1$coefficients[3])
@@ -101,7 +100,7 @@ kable(m1$coefficients[4])
 ```
 
 
-## Comparar agregando una variable adicional.
+# Modelo con variables de control 
 
 Con el objetivo de obtener estimaciones más precisas, hacemos una mejor especificación del modelo incorporando variables de control al modelo, siguiendo lo establecido por Card y Krueger (1994). En ese sentido, se pretende controlar por diferencias entre restaurantes: por ejemplo, las variables de los precios de sodas y papas a la francesa ya que restaurantes con precios más elevados podrían contratar más empleados; o si algunos restaurantes abren por más tiempo que otros, esto también tendría un efecto en el número de empleados que contratan.
 
