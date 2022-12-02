@@ -148,3 +148,6 @@ En el modelo 2, $\beta_3$, que representa el coeficiente de diferencias en difer
 kable(m2$coefficients[17])
 ```
 
+# Bibliografía
+
+- Card, D., & Krueger, A. B. (1994). Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania. The American Economic Review, 84(4), 772–793. http://www.jstor.org/stable/2118030
