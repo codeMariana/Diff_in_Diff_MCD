@@ -143,7 +143,7 @@ linearHypothesis(m1, c('Treatment + Treatment:Group = 0'))
 ```
 ##. 4. Después del tratamiento ¿Hay algún efecto significativo en el grupo de tratamiento sobre el de control? Es decir, ¿tiene impacto la política implementada?
 
-El impacto del tratamiento en la variable de respuesta es el estimador $\beta_3$ de diferencias en diferecias. En el modelo 1, $\beta_3$ resultó significativo por lo que el incremento en el salario tuvo un impacto positivo en el empleo de 3.3 empleados en promedio.
+En el modelo 2, $\beta_3$, que representa el coeficiente de diferencias en diferencias, es significativo. Podemos afirmar que el aumento en el salario mínimo en NJ resultó en un incremento de 4 empleados en promedio.
 
 ```{r}
 kable(m2$coefficients[17])
