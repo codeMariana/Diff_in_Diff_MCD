@@ -89,7 +89,7 @@ kable(b1_b3)
 linearHypothesis(m1, c('Treatment + Treatment:Group = 0'))
 
 ```
-De acuerdo con el *p-value* del estadístico *F* no podemos rechazar la hipótesis nula. Es decir, no podemos afirmar que la diferencia en el número de empleados NJ antes y después del aumento del salrio mínimo es significativo. 
+De acuerdo con el *p-value* del estadístico *F* no podemos rechazar la hipótesis nula. Es decir, no podemos afirmar que la diferencia en el número de empleados NJ antes y después del aumento del salario mínimo es significativo. 
 
 
 ##. 4. Después del tratamiento ¿Hay algún efecto significativo en el grupo de tratamiento sobre el de control? Es decir, ¿tiene impacto la política implementada?
@@ -105,7 +105,7 @@ kable(m1$coefficients[4])
 
 Con el objetivo de obtener estimaciones más precisas, hacemos una mejor especificación del modelo incorporando variables de control al modelo, siguiendo lo establecido por Card y Krueger (1994). En ese sentido, se pretende controlar por diferencias entre restaurantes: por ejemplo, las variables de los precios de sodas y papas a la francesa ya que restaurantes con precios más elevados podrían contratar más empleados; o si algunos restaurantes abren por más tiempo que otros, esto también tendría un efecto en el número de empleados que contratan.
 
-Por tanto, el modelo es de la siguiente manera:
+Por tanto, el modelo a estimar es el siguiente:
 
 ```{r}
 m2 <- lm(Empl ~ Treatment + Group + (Treatment*Group) +
@@ -115,3 +115,37 @@ m2 <- lm(Empl ~ Treatment + Group + (Treatment*Group) +
 
 stargazer(m2, type="text")
 ```
+
+Respondiendo las mismas preguntas para el modelo 1 tenemos que:
+
+## 1. ¿El efecto en el grupo de control es significativo antes de implementar la política?
+
+El coeficiente b0 no es estadísiticamente significativo, es decir, no tenemos evidencia para afirmar que la media de PA (grupo de control) antes del aumento en el salario mínimo es diferente de cero
+```{r}
+kable(m2$coefficients[1])
+```
+## 2. ¿Los grupos de tratamiento y de control muestran alguna diferencia significativa antes de implementar la política?
+
+Sí, el coeficiente $\beta_2$es significativo en el modelo 2, por lo que podemos afirmar que los restaurantes de comida rápida de NJ tiene 3 empleados menos en promedio que los de PA, en el periodo previo al aumento en el salario mínimo
+
+```{r}
+kable(m2$coefficients[3])
+```
+## 3.¿En el grupo de tratamiento existe algún cambio significativo entre el primer y el segundo período de tiempo?
+
+De acuerdo con el *p-value* del estadístico *F* tampoco podemos rechazar la hipótesis nula para el modelo 2. Es decir, no podemos afirmar que la diferencia en el número de empleados NJ antes y después del aumento del salario mínimo es significativo. 
+
+```{r}
+b1_b3<-m2$coefficients[2]+m2$coefficients[17]
+kable(b1_b3)
+
+linearHypothesis(m1, c('Treatment + Treatment:Group = 0'))
+```
+##. 4. Después del tratamiento ¿Hay algún efecto significativo en el grupo de tratamiento sobre el de control? Es decir, ¿tiene impacto la política implementada?
+
+El impacto del tratamiento en la variable de respuesta es el estimador $\beta_3$ de diferencias en diferecias. En el modelo 1, $\beta_3$ resultó significativo por lo que el incremento en el salario tuvo un impacto positivo en el empleo de 3.3 empleados en promedio.
+
+```{r}
+kable(m2$coefficients[17])
+```
+
